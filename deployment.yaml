@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: go-movies
+  name: go-movies
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: go-movies
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: go-movies
+    spec:
+      containers:
+      - image: go-movies:latest
+        name: go-movies
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000
+        env:
+        - name: MY-PORT
+          value: "8000"
