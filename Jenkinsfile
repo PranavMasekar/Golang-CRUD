@@ -14,6 +14,7 @@ pipeline {
                 echo 'BUILD EXECUTION STARTED'
                 sh 'go version'
                 sh 'go get ./...'
+                sh 'sudo usermod -a -G docker jenkins'
                 sh 'docker build . -t pranav18vk/go-movies-crud'
             }
         }
