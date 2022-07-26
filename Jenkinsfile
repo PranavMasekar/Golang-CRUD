@@ -9,7 +9,7 @@ pipeline {
         GOPATH = "${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}"
     }
     stages {
-        stage("build") {
+        stage("BUILD") {
             steps {
                 echo 'BUILD EXECUTION STARTED'
                 sh 'go version'
@@ -17,7 +17,7 @@ pipeline {
                 sh 'docker build . -t pranav18vk/go-movies-crud'
             }
         }
-        stage('deliver') {
+        stage('PUSHING IMAGE TO DOCKER') {
             agent any
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
