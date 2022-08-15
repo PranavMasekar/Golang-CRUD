@@ -17,14 +17,20 @@ pipeline {
                 sh 'docker build . -t pranav18vk/go-movies-crud'
             }
         }
-        stage('PUSHING IMAGE TO DOCKER') {
-            agent any
+        stage("RUN"){
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
-                sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
-                sh 'docker push pranav18vk/go-movies-crud'
-                }
+                echo 'RUNNING IMAGE IN DOCKER CONTAINER'
+                sh 'docker run -p 8000:8000 pranav18vk/go-movies-crud'
             }
         }
+        // stage('PUSHING IMAGE TO DOCKER') {
+        //     agent any
+        //     steps {
+        //         withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
+        //         sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
+        //         sh 'docker push pranav18vk/go-movies-crud'
+        //         }
+        //     }
+        // }
     }
 }
