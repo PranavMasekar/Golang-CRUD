@@ -1,15 +1,20 @@
-FROM golang:1.16-alpine
+FROM golang:1.16-alpine As builder
+
+RUN apk add --no-cache git
 
 WORKDIR /app 
 
-COPY go.mod ./
-COPY go.sum ./
+COPY . .
 
 RUN go mod download
 
-COPY *.go ./
-
 RUN go build -o golang-crud .
+
+FROM alpine:latest
+
+RUN apk add --no-cache ca-certificates
+
+COPY --from=builder /app/golang-crud /app/golang-crud
 
 EXPOSE 8000
 
